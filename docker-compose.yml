@@ -1,0 +1,18 @@
+services:
+  mysql:
+    build:
+      context: ./docker/mysql
+      dockerfile: Dockerfile
+    container_name: luz-colectiva-mysql
+    ports:
+      - "3306:3306"
+    volumes:
+      - luz_colectiva_mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  luz_colectiva_mysql_data:
