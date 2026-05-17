@@ -9,6 +9,8 @@ public interface PaymentDao {
 
   Optional<Payment> findById(UUID id);
 
+  List<Payment> findAllOrderByDateDesc();
+
   List<Payment> findByReceiptId(UUID receiptId);
 
   void insert(Payment payment);

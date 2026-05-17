@@ -29,6 +29,23 @@ public class PaymentDaoJdbc implements PaymentDao {
   }
 
   @Override
+  public List<Payment> findAllOrderByDateDesc() {
+    try (var c = JdbcConfig.getConnection();
+        var ps =
+            c.prepareStatement(
+                "SELECT * FROM payments ORDER BY payment_date DESC, id DESC");
+        var rs = ps.executeQuery()) {
+      List<Payment> list = new ArrayList<>();
+      while (rs.next()) {
+        list.add(RowMappers.mapPayment(rs));
+      }
+      return list;
+    } catch (SQLException e) {
+      throw DaoException.wrap("PaymentDao.findAllOrderByDateDesc", e);
+    }
+  }
+
+  @Override
   public List<Payment> findByReceiptId(UUID receiptId) {
     try (var c = JdbcConfig.getConnection();
         var ps =

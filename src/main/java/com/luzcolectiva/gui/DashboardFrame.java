@@ -40,6 +40,8 @@ public class DashboardFrame extends JFrame {
     private void registerListPanels() {
         addListPanel("UsersList", ListPanelsFactory.createUsersPanel());
         addListPanel("CustomersList", ListPanelsFactory.createCustomersPanel());
+        addListPanel("ReceiptsList", ListPanelsFactory.createReceiptsPanel());
+        addListPanel("PaymentsList", ListPanelsFactory.createPaymentsPanel());
         addListPanel("SettingsList", ListPanelsFactory.createAppSettingsPanel());
     }
 
@@ -62,6 +64,8 @@ public class DashboardFrame extends JFrame {
         addMenuButton("Inicio", "Welcome");
         addMenuButton("Usuarios", "UsersList");
         addMenuButton("Clientes", "CustomersList");
+        addMenuButton("Recibos Generados", "ReceiptsList");
+        addMenuButton("Pagos Registrados", "PaymentsList");
         addMenuButton("Configuración", "SettingsList");
 
         add(sidebar, BorderLayout.WEST);

@@ -4,6 +4,8 @@ import com.luzcolectiva.dao.DaoFactory;
 import com.luzcolectiva.gui.components.GenericListPanel;
 import com.luzcolectiva.modelo.AppSettings;
 import com.luzcolectiva.modelo.Customer;
+import com.luzcolectiva.modelo.Payment;
+import com.luzcolectiva.modelo.Receipt;
 import com.luzcolectiva.modelo.User;
 
 import javax.swing.table.DefaultTableModel;
@@ -80,6 +82,58 @@ public class ListPanelsFactory {
                 model.addRow(new Object[]{"Contrato Colectivo", s.getCollectiveContractNumber()});
             }
             
+            return model;
+        });
+
+        return panel;
+    }
+
+    public static GenericListPanel createReceiptsPanel() {
+        GenericListPanel panel = new GenericListPanel("Recibos Generados");
+
+        panel.setDataLoader(() -> {
+            List<Receipt> receipts = DaoFactory.receipts().findAllOrderByPeriod();
+            String[] columns = {"ID Cliente", "Periodo", "N° Recibo", "Subtotal", "Total", "Pagado", "Saldo", "Estado"};
+            DefaultTableModel model = new DefaultTableModel(columns, 0);
+
+            for (Receipt r : receipts) {
+                String periodo = String.format("%04d-%02d", r.getPeriodYear(), r.getPeriodMonth());
+                model.addRow(new Object[]{
+                        r.getCustomerId(),
+                        periodo,
+                        r.getReceiptNumber(),
+                        r.getSubtotal(),
+                        r.getTotal(),
+                        r.getPaidAmount(),
+                        r.getBalance(),
+                        r.getStatus()
+                });
+            }
+            return model;
+        });
+
+        return panel;
+    }
+
+    public static GenericListPanel createPaymentsPanel() {
+        GenericListPanel panel = new GenericListPanel("Historial de Pagos");
+
+        panel.setDataLoader(() -> {
+            List<Payment> payments = DaoFactory.payments().findAllOrderByDateDesc();
+            String[] columns = {"Fecha", "ID Recibo", "ID Cliente", "Método", "Referencia", "Monto", "Estado"};
+            DefaultTableModel model = new DefaultTableModel(columns, 0);
+
+            for (Payment p : payments) {
+                model.addRow(new Object[]{
+                        p.getPaymentDate(),
+                        p.getReceiptId(),
+                        p.getCustomerId(),
+                        p.getPaymentMethod(),
+                        p.getReferenceNumber(),
+                        p.getAmount(),
+                        p.getStatus()
+                });
+            }
             return model;
         });
 
