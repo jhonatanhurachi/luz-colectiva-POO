@@ -80,27 +80,10 @@ Ejecutar la clase principal **con el classpath de Maven** (incluye el driver MyS
 mvn -q exec:java
 ```
 
-Sin argumentos solo muestra la **ayuda** de la CLI. Para listar datos, pasa un comando con `-Dexec.args`.
-
-### CLI de listados
-
-Comandos disponibles: `ayuda`, `clientes`, `usuarios`, `recibos`, `lecturas <uuid-cliente>`, `config`.
-
-**Bash / cmd (un solo argumento):**
-
-```bash
-mvn -q exec:java -Dexec.args=clientes
-mvn -q exec:java -Dexec.args=config
-```
-
-**PowerShell** (entrecomillar el parámetro `-D…`):
-
-```powershell
-mvn -q exec:java "-Dexec.args=clientes"
-mvn -q exec:java "-Dexec.args=lecturas aaaaaaaa-aaaa-aaaa-aaaa-000000000001"
-```
-
-Con el **seed de demo**, un UUID de cliente válido es por ejemplo `aaaaaaaa-aaaa-aaaa-aaaa-000000000001` (Juan Pérez).
+La aplicación iniciará una **Interfaz Gráfica (GUI)** construida con Java Swing.  
+Las credenciales de acceso para el login de demostración son:
+- **Usuario:** `demo`
+- **Contraseña:** `demo`
 
 ## Estructura del código
 
@@ -112,16 +95,17 @@ Con el **seed de demo**, un UUID de cliente válido es por ejemplo `aaaaaaaa-aaa
 | `com.luzcolectiva.dao.jdbc` | `RowMappers` (`ResultSet` → modelo) |
 | `com.luzcolectiva.util` | `JdbcConfig`, `JdbcSupport` |
 | `com.luzcolectiva.validation` | Reglas que en MySQL no van en CHECK (p. ej. `CustomerServiceEventRules`) |
-| `com.luzcolectiva.app` | `Main`, `ListCli` (listados por consola) |
+| `com.luzcolectiva.app` | `Main` (punto de entrada) |
+| `com.luzcolectiva.gui` | Componentes visuales de Java Swing (`LoginFrame`, `DashboardFrame`, etc.) |
 
 Los errores de acceso a datos se envuelven en `com.luzcolectiva.DaoException`.
 
-## Probar la conexión y los DAO
+## Probar la aplicación
 
-Con MySQL en marcha, datos de seed cargados y JDBC configurado, usa por ejemplo:
+Con MySQL en marcha, los datos del seed cargados y el archivo JDBC configurado, simplemente lanza la aplicación:
 
 ```bash
-mvn -q exec:java -Dexec.args=config
+mvn -q exec:java
 ```
 
-Ver la configuración global. Otros listados: `clientes`, `usuarios`, `recibos`, `lecturas <uuid>`.
+Ingresa con las credenciales `demo` / `demo` en la pantalla de inicio de sesión. Desde el menú lateral izquierdo podrás acceder a todos los listados de la base de datos (Usuarios, Clientes, Recibos, Pagos, Configuración, etc.)
