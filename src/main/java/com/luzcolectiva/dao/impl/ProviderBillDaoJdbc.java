@@ -7,6 +7,8 @@ import com.luzcolectiva.modelo.ProviderBill;
 import com.luzcolectiva.util.JdbcConfig;
 import com.luzcolectiva.util.JdbcSupport;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -22,6 +24,21 @@ public class ProviderBillDaoJdbc implements ProviderBillDao {
       }
     } catch (SQLException e) {
       throw DaoException.wrap("ProviderBillDao.findById", e);
+    }
+  }
+
+  @Override
+  public List<ProviderBill> findAllOrderByPeriodDesc() {
+    try (var c = JdbcConfig.getConnection();
+        var ps = c.prepareStatement("SELECT * FROM provider_bills ORDER BY period_year DESC, period_month DESC");
+        var rs = ps.executeQuery()) {
+      List<ProviderBill> list = new ArrayList<>();
+      while (rs.next()) {
+        list.add(RowMappers.mapProviderBill(rs));
+      }
+      return list;
+    } catch (SQLException e) {
+      throw DaoException.wrap("ProviderBillDao.findAllOrderByPeriodDesc", e);
     }
   }
 

@@ -29,6 +29,21 @@ public class ExtraChargePaymentDaoJdbc implements ExtraChargePaymentDao {
   }
 
   @Override
+  public List<ExtraChargePayment> findAllOrderByDateDesc() {
+    try (var c = JdbcConfig.getConnection();
+        var ps = c.prepareStatement("SELECT * FROM extra_charge_payments ORDER BY payment_date DESC, id DESC");
+        var rs = ps.executeQuery()) {
+      List<ExtraChargePayment> list = new ArrayList<>();
+      while (rs.next()) {
+        list.add(RowMappers.mapExtraChargePayment(rs));
+      }
+      return list;
+    } catch (SQLException e) {
+      throw DaoException.wrap("ExtraChargePaymentDao.findAllOrderByDateDesc", e);
+    }
+  }
+
+  @Override
   public List<ExtraChargePayment> findByAssignmentId(UUID assignmentId) {
     try (var c = JdbcConfig.getConnection();
         var ps =

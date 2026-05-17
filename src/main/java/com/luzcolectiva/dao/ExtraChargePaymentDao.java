@@ -9,6 +9,8 @@ public interface ExtraChargePaymentDao {
 
   Optional<ExtraChargePayment> findById(UUID id);
 
+  List<ExtraChargePayment> findAllOrderByDateDesc();
+
   List<ExtraChargePayment> findByAssignmentId(UUID assignmentId);
 
   void insert(ExtraChargePayment payment);

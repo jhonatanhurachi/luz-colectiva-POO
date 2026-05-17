@@ -9,6 +9,8 @@ public interface ExtraChargeAssignmentDao {
 
   Optional<ExtraChargeAssignment> findById(UUID id);
 
+  List<ExtraChargeAssignment> findAllOrderById();
+
   List<ExtraChargeAssignment> findByExtraChargeId(UUID extraChargeId);
 
   void insert(ExtraChargeAssignment assignment);

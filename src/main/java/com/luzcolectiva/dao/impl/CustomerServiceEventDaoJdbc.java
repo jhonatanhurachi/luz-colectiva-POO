@@ -31,6 +31,21 @@ public class CustomerServiceEventDaoJdbc implements CustomerServiceEventDao {
   }
 
   @Override
+  public List<CustomerServiceEvent> findAllOrderByDateDesc() {
+    try (var c = JdbcConfig.getConnection();
+        var ps = c.prepareStatement("SELECT * FROM customer_service_events ORDER BY event_date DESC, id DESC");
+        var rs = ps.executeQuery()) {
+      List<CustomerServiceEvent> list = new ArrayList<>();
+      while (rs.next()) {
+        list.add(RowMappers.mapCustomerServiceEvent(rs));
+      }
+      return list;
+    } catch (SQLException e) {
+      throw DaoException.wrap("CustomerServiceEventDao.findAllOrderByDateDesc", e);
+    }
+  }
+
+  @Override
   public List<CustomerServiceEvent> findByCustomerId(UUID customerId) {
     try (var c = JdbcConfig.getConnection();
         var ps =

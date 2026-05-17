@@ -42,6 +42,12 @@ public class DashboardFrame extends JFrame {
         addListPanel("CustomersList", ListPanelsFactory.createCustomersPanel());
         addListPanel("ReceiptsList", ListPanelsFactory.createReceiptsPanel());
         addListPanel("PaymentsList", ListPanelsFactory.createPaymentsPanel());
+        addListPanel("ProviderBillsList", ListPanelsFactory.createProviderBillsPanel());
+        addListPanel("MeterReadingsList", ListPanelsFactory.createMeterReadingsPanel());
+        addListPanel("ExtraChargesList", ListPanelsFactory.createExtraChargesPanel());
+        addListPanel("ExtraChargeAssignmentsList", ListPanelsFactory.createExtraChargeAssignmentsPanel());
+        addListPanel("ExtraChargePaymentsList", ListPanelsFactory.createExtraChargePaymentsPanel());
+        addListPanel("CustomerServiceEventsList", ListPanelsFactory.createCustomerServiceEventsPanel());
         addListPanel("SettingsList", ListPanelsFactory.createAppSettingsPanel());
     }
 
@@ -64,8 +70,14 @@ public class DashboardFrame extends JFrame {
         addMenuButton("Inicio", "Welcome");
         addMenuButton("Usuarios", "UsersList");
         addMenuButton("Clientes", "CustomersList");
+        addMenuButton("Lecturas", "MeterReadingsList");
+        addMenuButton("Recibos Proveedor", "ProviderBillsList");
         addMenuButton("Recibos Generados", "ReceiptsList");
         addMenuButton("Pagos Registrados", "PaymentsList");
+        addMenuButton("Cargos Extra", "ExtraChargesList");
+        addMenuButton("Asignaciones", "ExtraChargeAssignmentsList");
+        addMenuButton("Pagos Extra", "ExtraChargePaymentsList");
+        addMenuButton("Servicio al Cliente", "CustomerServiceEventsList");
         addMenuButton("Configuración", "SettingsList");
 
         add(sidebar, BorderLayout.WEST);

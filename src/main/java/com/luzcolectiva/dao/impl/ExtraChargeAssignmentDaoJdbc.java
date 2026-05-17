@@ -28,6 +28,21 @@ public class ExtraChargeAssignmentDaoJdbc implements ExtraChargeAssignmentDao {
   }
 
   @Override
+  public List<ExtraChargeAssignment> findAllOrderById() {
+    try (var c = JdbcConfig.getConnection();
+        var ps = c.prepareStatement("SELECT * FROM extra_charge_assignments ORDER BY id ASC");
+        var rs = ps.executeQuery()) {
+      List<ExtraChargeAssignment> list = new ArrayList<>();
+      while (rs.next()) {
+        list.add(RowMappers.mapExtraChargeAssignment(rs));
+      }
+      return list;
+    } catch (SQLException e) {
+      throw DaoException.wrap("ExtraChargeAssignmentDao.findAllOrderById", e);
+    }
+  }
+
+  @Override
   public List<ExtraChargeAssignment> findByExtraChargeId(UUID extraChargeId) {
     try (var c = JdbcConfig.getConnection();
         var ps =

@@ -9,6 +9,8 @@ public interface MeterReadingDao {
 
   Optional<MeterReading> findById(UUID id);
 
+  List<MeterReading> findAllOrderByPeriodDesc();
+
   List<MeterReading> findByCustomerId(UUID customerId);
 
   void insert(MeterReading reading);

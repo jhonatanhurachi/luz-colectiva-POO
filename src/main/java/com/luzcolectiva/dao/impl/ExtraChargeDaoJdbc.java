@@ -8,6 +8,8 @@ import com.luzcolectiva.util.JdbcConfig;
 import com.luzcolectiva.util.JdbcSupport;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -23,6 +25,21 @@ public class ExtraChargeDaoJdbc implements ExtraChargeDao {
       }
     } catch (SQLException e) {
       throw DaoException.wrap("ExtraChargeDao.findById", e);
+    }
+  }
+
+  @Override
+  public List<ExtraCharge> findAllOrderByName() {
+    try (var c = JdbcConfig.getConnection();
+        var ps = c.prepareStatement("SELECT * FROM extra_charges ORDER BY name ASC");
+        var rs = ps.executeQuery()) {
+      List<ExtraCharge> list = new ArrayList<>();
+      while (rs.next()) {
+        list.add(RowMappers.mapExtraCharge(rs));
+      }
+      return list;
+    } catch (SQLException e) {
+      throw DaoException.wrap("ExtraChargeDao.findAllOrderByName", e);
     }
   }
 

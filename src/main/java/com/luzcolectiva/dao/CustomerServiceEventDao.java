@@ -9,6 +9,8 @@ public interface CustomerServiceEventDao {
 
   Optional<CustomerServiceEvent> findById(UUID id);
 
+  List<CustomerServiceEvent> findAllOrderByDateDesc();
+
   List<CustomerServiceEvent> findByCustomerId(UUID customerId);
 
   void insert(CustomerServiceEvent event);

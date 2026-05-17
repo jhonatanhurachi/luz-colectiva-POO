@@ -29,6 +29,21 @@ public class MeterReadingDaoJdbc implements MeterReadingDao {
   }
 
   @Override
+  public List<MeterReading> findAllOrderByPeriodDesc() {
+    try (var c = JdbcConfig.getConnection();
+        var ps = c.prepareStatement("SELECT * FROM meter_readings ORDER BY period_year DESC, period_month DESC");
+        var rs = ps.executeQuery()) {
+      List<MeterReading> list = new ArrayList<>();
+      while (rs.next()) {
+        list.add(RowMappers.mapMeterReading(rs));
+      }
+      return list;
+    } catch (SQLException e) {
+      throw DaoException.wrap("MeterReadingDao.findAllOrderByPeriodDesc", e);
+    }
+  }
+
+  @Override
   public List<MeterReading> findByCustomerId(UUID customerId) {
     try (var c = JdbcConfig.getConnection();
         var ps =
